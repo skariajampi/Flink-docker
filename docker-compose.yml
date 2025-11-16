@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  jobmanager:
+    image: flink:1.20.3-scala_2.12-java17
+    container_name: flink_jobmanager
+    ports:
+      - "8081:8081"   # Flink Web UI
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    command: jobmanager
+    volumes:
+      - ./conf/flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+    networks:
+      - flink-net
+
+  taskmanager1:
+    image: flink:1.20.3-scala_2.12-java17
+    container_name: flink_taskmanager1
+    depends_on:
+      - jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - TASK_MANAGER_HEAP_SIZE=1024m
+    command: taskmanager
+    volumes:
+      - ./conf/flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+    networks:
+      - flink-net
+
+  taskmanager2:
+    image: flink:1.20.3-scala_2.12-java17
+    container_name: flink_taskmanager2
+    depends_on:
+      - jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - TASK_MANAGER_HEAP_SIZE=1024m
+    command: taskmanager
+    volumes:
+      - ./conf/flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+    networks:
+      - flink-net
+
+networks:
+  flink-net:
+    driver: bridge

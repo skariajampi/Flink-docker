@@ -1,0 +1,11 @@
+rest.port: 8081
+blob.server.port: 6124
+taskmanager.memory.process.size: 2048m
+parallelism.default: 4
+jobmanager.rpc.address: jobmanager
+taskmanager.numberOfTaskSlots: 4
+state.backend: filesystem
+jobmanager.memory.process.size: 1024m
+state.savepoints.dir: file:///opt/flink/savepoints
+query.server.port: 6125
+state.checkpoints.dir: file:///opt/flink/checkpoints
